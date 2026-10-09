@@ -1,0 +1,934 @@
+/* =====================================================
+   UFAJ ÉGLISE CHRÉTIENNE
+   FEUILLE DE STYLE PRINCIPALE
+   ===================================================== */
+
+
+/* =====================================================
+   1. COULEURS ET VARIABLES
+   ===================================================== */
+
+:root {
+
+    /* Couleurs principales */
+    --rouge: #B5121B;
+    --rouge-fonce: #850D14;
+    --rouge-clair: #FBEAEC;
+
+    /* Couleurs secondaires */
+    --or: #D4A84F;
+    --or-clair: #F4E4BE;
+
+    /* Couleurs neutres */
+    --noir: #111111;
+    --noir-doux: #222222;
+    --blanc: #FFFFFF;
+    --gris: #F7F7F7;
+    --gris-clair: #EEEEEE;
+    --gris-texte: #666666;
+
+    /* Ombres */
+    --ombre: 0 10px 30px rgba(0, 0, 0, 0.08);
+    --ombre-forte: 0 15px 40px rgba(0, 0, 0, 0.15);
+
+    /* Arrondis */
+    --radius: 15px;
+}
+
+
+/* =====================================================
+   2. RÉINITIALISATION
+   ===================================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--blanc);
+    color: var(--noir);
+    line-height: 1.7;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+}
+
+
+/* =====================================================
+   3. CONTENEUR
+   ===================================================== */
+
+.container {
+    width: 90%;
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+
+/* =====================================================
+   4. EN-TÊTE / NAVIGATION
+   ===================================================== */
+
+header {
+    width: 100%;
+    background-color: var(--blanc);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+    box-shadow: 0 3px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+/* Logo */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    color: var(--rouge);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.logo img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+
+/* Navigation */
+
+header nav {
+    min-height: 80px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header nav a {
+    position: relative;
+
+    margin-left: 25px;
+
+    color: var(--noir);
+    font-size: 15px;
+    font-weight: 600;
+
+    transition: 0.3s ease;
+}
+
+
+/* Effet au survol */
+
+header nav a:hover {
+    color: var(--rouge);
+}
+
+
+/* Petite ligne sous le menu */
+
+header nav a::after {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+
+    width: 0;
+    height: 2px;
+
+    background-color: var(--rouge);
+
+    transition: 0.3s ease;
+}
+
+header nav a:hover::after {
+    width: 100%;
+}
+
+
+/* =====================================================
+   5. ACCUEIL / HERO
+   ===================================================== */
+
+#accueil {
+
+    min-height: 100vh;
+
+    margin-top: 80px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    color: var(--blanc);
+
+    padding: 120px 20px;
+
+    position: relative;
+
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.65),
+            rgba(0, 0, 0, 0.70)
+        ),
+        url("eglise.jpg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+/* Petit texte */
+
+#accueil p:first-of-type {
+    font-size: 18px;
+    max-width: 700px;
+    margin: 20px auto;
+
+    color: #f5f5f5;
+}
+
+
+/* Grand titre */
+
+#accueil h2 {
+
+    max-width: 900px;
+
+    font-size: clamp(40px, 7vw, 75px);
+
+    line-height: 1.1;
+
+    margin-bottom: 20px;
+
+    font-weight: 800;
+}
+
+
+/* Slogan */
+
+#accueil p {
+    max-width: 750px;
+
+    font-size: 20px;
+
+    margin: 10px auto;
+
+    color: #f2f2f2;
+}
+
+
+/* Bouton */
+
+#accueil a {
+
+    display: inline-block;
+
+    margin-top: 30px;
+
+    padding: 15px 30px;
+
+    background-color: var(--rouge);
+
+    color: var(--blanc);
+
+    border-radius: 8px;
+
+    font-weight: 700;
+
+    transition: 0.3s ease;
+}
+
+
+#accueil a:hover {
+
+    background-color: var(--or);
+
+    color: var(--noir);
+
+    transform: translateY(-3px);
+
+    box-shadow: var(--ombre-forte);
+}
+
+
+/* =====================================================
+   6. SECTIONS
+   ===================================================== */
+
+section {
+
+    padding: 90px 5%;
+}
+
+
+/* Titres */
+
+section > h2 {
+
+    text-align: center;
+
+    font-size: 38px;
+
+    margin-bottom: 40px;
+
+    color: var(--noir);
+}
+
+
+section > h2::after {
+
+    content: "";
+
+    display: block;
+
+    width: 55px;
+    height: 4px;
+
+    background-color: var(--rouge);
+
+    margin: 12px auto 0;
+
+    border-radius: 5px;
+}
+
+
+/* =====================================================
+   7. À PROPOS
+   ===================================================== */
+
+#apropos {
+
+    background-color: var(--blanc);
+
+    max-width: 1000px;
+
+    margin: auto;
+}
+
+
+#apropos p {
+
+    max-width: 850px;
+
+    margin: 0 auto 20px;
+
+    text-align: center;
+
+    color: var(--gris-texte);
+
+    font-size: 17px;
+}
+
+
+/* =====================================================
+   8. NOS CULTES
+   ===================================================== */
+
+#cultes {
+
+    background-color: var(--gris);
+}
+
+
+#cultes article {
+
+    background-color: var(--blanc);
+
+    max-width: 1000px;
+
+    margin: 20px auto;
+
+    padding: 30px;
+
+    border-radius: var(--radius);
+
+    border-left: 5px solid var(--rouge);
+
+    box-shadow: var(--ombre);
+
+    transition: 0.3s ease;
+}
+
+
+#cultes article:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow: var(--ombre-forte);
+}
+
+
+#cultes h3 {
+
+    color: var(--rouge);
+
+    font-size: 22px;
+
+    margin-bottom: 8px;
+}
+
+
+#cultes p {
+
+    color: var(--gris-texte);
+}
+
+
+/* =====================================================
+   9. VALEURS
+   ===================================================== */
+
+#valeurs {
+
+    background-color: var(--blanc);
+}
+
+
+#valeurs ul {
+
+    max-width: 1000px;
+
+    margin: auto;
+
+    display: grid;
+
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 18px;
+}
+
+
+#valeurs li {
+
+    padding: 30px 15px;
+
+    text-align: center;
+
+    background-color: var(--blanc);
+
+    border: 1px solid var(--gris-clair);
+
+    border-radius: var(--radius);
+
+    font-weight: 700;
+
+    color: var(--noir);
+
+    box-shadow: var(--ombre);
+
+    transition: 0.3s ease;
+}
+
+
+#valeurs li::before {
+
+    content: "✦";
+
+    display: block;
+
+    color: var(--or);
+
+    font-size: 28px;
+
+    margin-bottom: 10px;
+}
+
+
+#valeurs li:hover {
+
+    background-color: var(--rouge);
+
+    color: var(--blanc);
+
+    transform: translateY(-7px);
+}
+
+
+#valeurs li:hover::before {
+
+    color: var(--blanc);
+}
+
+
+/* =====================================================
+   10. ÉVÉNEMENTS
+   ===================================================== */
+
+#evenements {
+
+    background-color: var(--gris);
+}
+
+
+#evenements article {
+
+    max-width: 850px;
+
+    margin: 20px auto;
+
+    padding: 25px 30px;
+
+    background-color: var(--blanc);
+
+    border-radius: var(--radius);
+
+    box-shadow: var(--ombre);
+
+    position: relative;
+
+    transition: 0.3s ease;
+}
+
+
+#evenements article:hover {
+
+    transform: translateX(7px);
+
+    border-left: 5px solid var(--rouge);
+}
+
+
+#evenements h3 {
+
+    color: var(--rouge);
+
+    font-size: 22px;
+
+    margin-bottom: 5px;
+}
+
+
+#evenements p {
+
+    color: var(--gris-texte);
+}
+
+
+/* =====================================================
+   11. VERSET BIBLIQUE
+   ===================================================== */
+
+#versets {
+
+    text-align: center;
+
+    color: var(--blanc);
+
+    background:
+        linear-gradient(
+            rgba(20, 10, 10, 0.82),
+            rgba(20, 10, 10, 0.88)
+        ),
+        url("bible.jpg");
+
+    background-size: cover;
+
+    background-position: center;
+}
+
+
+#versets h2 {
+
+    color: var(--blanc);
+}
+
+
+#versets blockquote {
+
+    max-width: 850px;
+
+    margin: auto;
+
+    font-family: Georgia, serif;
+
+    font-size: clamp(22px, 4vw, 35px);
+
+    line-height: 1.6;
+
+    font-style: italic;
+}
+
+
+#versets p {
+
+    margin-top: 25px;
+
+    color: var(--or);
+
+    font-size: 18px;
+}
+
+
+/* =====================================================
+   12. GALERIE
+   ===================================================== */
+
+#galerie {
+
+    background-color: var(--blanc);
+}
+
+
+#galerie img {
+
+    width: 100%;
+
+    height: 250px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+
+    transition: 0.4s ease;
+
+    box-shadow: var(--ombre);
+}
+
+
+/* Grille galerie */
+
+#galerie {
+
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 20px;
+}
+
+
+/* Le titre prend toute la largeur */
+
+#galerie h2 {
+
+    grid-column: 1 / -1;
+}
+
+
+/* Effet image */
+
+#galerie img:hover {
+
+    transform: scale(1.03);
+
+    box-shadow: var(--ombre-forte);
+}
+
+
+/* =====================================================
+   13. CONTACT
+   ===================================================== */
+
+#contact {
+
+    background-color: var(--gris);
+}
+
+
+#contact > p {
+
+    max-width: 800px;
+
+    margin: 15px auto;
+
+    padding: 20px;
+
+    background-color: var(--blanc);
+
+    border-radius: 10px;
+
+    box-shadow: var(--ombre);
+
+    color: var(--gris-texte);
+}
+
+
+#contact strong {
+
+    color: var(--rouge);
+}
+
+
+/* Bouton WhatsApp */
+
+#contact a {
+
+    display: block;
+
+    width: fit-content;
+
+    margin: 30px auto 0;
+
+    padding: 14px 25px;
+
+    background-color: #25D366;
+
+    color: white;
+
+    border-radius: 8px;
+
+    font-weight: 700;
+
+    transition: 0.3s ease;
+}
+
+
+#contact a:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow: var(--ombre-forte);
+}
+
+
+/* =====================================================
+   14. FOOTER
+   ===================================================== */
+
+footer {
+
+    background-color: var(--noir);
+
+    color: var(--blanc);
+
+    text-align: center;
+
+    padding: 50px 20px 25px;
+}
+
+
+footer h2 {
+
+    color: var(--or);
+
+    margin-bottom: 15px;
+}
+
+
+footer p {
+
+    max-width: 650px;
+
+    margin: 10px auto;
+
+    color: #cccccc;
+}
+
+
+footer p:last-child {
+
+    margin-top: 30px;
+
+    padding-top: 20px;
+
+    border-top: 1px solid #333;
+
+    font-size: 14px;
+
+    color: #999;
+}
+
+
+/* =====================================================
+   15. ANIMATION
+   ===================================================== */
+
+@keyframes apparition {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(30px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+#accueil h2,
+#accueil p,
+#accueil a {
+
+    animation: apparition 1s ease forwards;
+}
+
+
+/* =====================================================
+   16. TABLETTE
+   ===================================================== */
+
+@media (max-width: 900px) {
+
+    header nav {
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        padding: 15px 0;
+    }
+
+
+    header nav a {
+
+        margin: 5px 8px;
+
+        font-size: 14px;
+    }
+
+
+    #valeurs ul {
+
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+    #galerie {
+
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+
+/* =====================================================
+   17. TÉLÉPHONE
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+    section {
+
+        padding: 65px 20px;
+    }
+
+
+    header nav {
+
+        min-height: auto;
+
+        padding: 15px 10px;
+    }
+
+
+    .logo {
+
+        font-size: 15px;
+    }
+
+
+    .logo img {
+
+        width: 45px;
+
+        height: 45px;
+    }
+
+
+    header nav a {
+
+        font-size: 13px;
+
+        margin: 4px;
+    }
+
+
+    #accueil {
+
+        margin-top: 70px;
+
+        min-height: 90vh;
+
+        padding: 100px 20px;
+    }
+
+
+    #accueil h2 {
+
+        font-size: 40px;
+    }
+
+
+    #accueil p {
+
+        font-size: 17px;
+    }
+
+
+    section > h2 {
+
+        font-size: 30px;
+    }
+
+
+    #valeurs ul {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    #galerie {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    #galerie img {
+
+        height: 230px;
+    }
+
+
+    #cultes article,
+    #evenements article {
+
+        padding: 22px;
+    }
+
+
+    #versets blockquote {
+
+        font-size: 22px;
+    }
+
+
+    footer {
+
+        padding: 40px 20px 20px;
+    }
+}
