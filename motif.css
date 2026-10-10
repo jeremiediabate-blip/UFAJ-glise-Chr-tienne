@@ -594,7 +594,7 @@ section > h2::after {
    ===================================================== */
 
 ```css
-/* Galerie des six photos */
+/* Galerie : afficher les images en entier */
 #galerie .galerie-images {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -605,8 +605,9 @@ section > h2::after {
 #galerie .galerie-images img {
     display: block;
     width: 100%;
-    height: 500px;
-    object-fit: cover;
+    height: 300px;
+    object-fit: contain;
+    background-color: #fff;
     border-radius: 12px;
 }
 
@@ -614,8 +615,14 @@ section > h2::after {
     #galerie .galerie-images {
         grid-template-columns: 1fr;
     }
+
+    #galerie .galerie-images img {
+        height: auto;
+        max-height: 350px;
+    }
 }
 ```
+
 
 #galerie h2 {
 
