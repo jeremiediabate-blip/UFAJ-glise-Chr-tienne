@@ -326,3 +326,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
+```javascript
+// Menu déroulant pour Android, iPhone et petites tablettes
+
+const boutonMenu = document.getElementById("menu-toggle");
+const menuPrincipal = document.getElementById("menu-principal");
+
+if (boutonMenu && menuPrincipal) {
+    boutonMenu.addEventListener("click", function () {
+        const estOuvert = menuPrincipal.classList.toggle("menu-ouvert");
+
+        boutonMenu.setAttribute("aria-expanded", String(estOuvert));
+        boutonMenu.setAttribute(
+            "aria-label",
+            estOuvert ? "Fermer le menu" : "Ouvrir le menu"
+        );
+
+        boutonMenu.textContent = estOuvert ? "✕" : "☰";
+    });
+
+    menuPrincipal.querySelectorAll("a").forEach(function (lien) {
+        lien.addEventListener("click", function () {
+            menuPrincipal.classList.remove("menu-ouvert");
+            boutonMenu.setAttribute("aria-expanded", "false");
+            boutonMenu.setAttribute("aria-label", "Ouvrir le menu");
+            boutonMenu.textContent = "☰";
+        });
+    });
+}
