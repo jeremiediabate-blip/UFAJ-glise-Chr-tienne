@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -5,203 +6,257 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="./motif.css">
-    <title>UFAJ Église Chrétienne</title>
-     <script src="./script.js" defer></script>
-</head>
+    <meta name="description" content="Bienvenue à UFAJ Église Chrétienne, à Vridi Cité, Abidjan. Une communauté de foi, d'amour, de partage et d'espérance.">
+    <meta name="theme-color" content="#B5121B">
 
+    <title>UFAJ Église Chrétienne | Foi, amour et espérance</title>
+
+    <link rel="stylesheet" href="./motif.css">
+    <script src="./script.js" defer></script>
+</head>
 
 <body>
 
-    <!-- EN-TÊTE -->
+    <!-- EN-TÊTE ET NAVIGATION -->
     <header>
-
         <div class="logo">
-            <img src="./Logo_Eglise.jpeg" alt="Logo_Eglise">
+            <img
+                src="./Logo_Eglise.jpeg"
+                alt="Logo de UFAJ Église Chrétienne"
+                width="55"
+                height="55"
+            >
             <h1>UFAJ Église Chrétienne</h1>
         </div>
 
-        <!-- MENU -->
-<button
-    class="menu-toggle"
-    id="menu-toggle"
-    type="button"
-    aria-label="Ouvrir le menu"
-    aria-expanded="false"
-    aria-controls="menu-principal">
-    ☰
-</button>
+        <button
+            class="menu-toggle"
+            id="menu-toggle"
+            type="button"
+            aria-label="Ouvrir le menu"
+            aria-expanded="false"
+            aria-controls="menu-principal"
+        >
+            ☰
+        </button>
 
-<nav id="menu-principal">
-    <a href="#accueil">Accueil</a>
-    <a href="#apropos">À propos</a>
-    <a href="#cultes">Nos cultes</a>
-    <a href="#evenements">Événements</a>
-    <a href="#versets">Versets</a>
-    <a href="#galerie">Galerie</a>
-    <a href="#contact">Contact</a>
-</nav>
-
+        <nav id="menu-principal" aria-label="Navigation principale">
+            <a href="#accueil">Accueil</a>
+            <a href="#apropos">À propos</a>
+            <a href="#cultes">Nos cultes</a>
+            <a href="#evenements">Événements</a>
+            <a href="#versets">Versets</a>
+            <a href="#galerie">Galerie</a>
+            <a href="#contact">Contact</a>
+        </nav>
     </header>
 
-
-    <!-- ACCUEIL -->
     <main>
 
-        <section id="accueil">
+        <!-- ACCUEIL -->
+        <section id="accueil" aria-labelledby="titre-accueil">
 
-        <img src="./Logo_Eglise.jpeg" alt="UFAJ Église Chrétienne"  width="300"  height="200" >
+            <img
+                src="./Logo_Eglise.jpeg"
+                alt="Emblème de UFAJ Église Chrétienne"
+                width="150"
+                height="150"
+            >
 
-            <h2>
+            <h2 id="titre-accueil">
                 Le lieu où la présence de Dieu est réelle
             </h2>
 
-            <p>
-                Où la tristesse se transforme en joie.
-            </p>
+            <p>Où la tristesse se transforme en joie.</p>
 
             <p>
-                Une communauté de foi, d'amour et d'espérance.
+                Une communauté de foi, d'amour,
+                de partage et d'espérance.
             </p>
 
-            <a href="#apropos">
-                Découvrir notre église
-            </a>
+            <a href="#apropos">Découvrir notre église</a>
 
         </section>
-
 
         <!-- À PROPOS -->
-        <section id="apropos">
+        <section id="apropos" aria-labelledby="titre-apropos">
 
-            <h2>À propos de nous</h2>
+            <h2 id="titre-apropos">À propos de nous</h2>
 
             <p>
-                Bien venu à UFAJ eglise  
-                nous somme communauté de foi ,d'amour ,de partage et d'espérance.
-                
+                Bienvenue à UFAJ Église Chrétienne !
+                Nous sommes une communauté unie par la foi,
+                l'amour, le partage et l'espérance.
             </p>
 
             <p>
-                Notre mission est d'acompagner chaque personne dans sa relation avec Dieu et créer
-                un espace  ou chacun peut trouver la paix , la joie et la communion en mettant
-                en viguer la parol de Dieu affin de sauver des vies.
-        
-                
+                Notre mission est d'accompagner chaque personne
+                dans sa relation avec Dieu et de créer un espace
+                où chacun peut trouver la paix, la joie et la communion.
+                Nous mettons la Parole de Dieu au cœur de nos enseignements
+                afin de partager le message de l'Évangile et de contribuer
+                à la transformation des vies.
             </p>
 
         </section>
 
-
         <!-- NOS CULTES -->
-        <section id="cultes">
+        <section id="cultes" aria-labelledby="titre-cultes">
 
-            <h2>Nos cultes</h2>
+            <h2 id="titre-cultes">Nos cultes</h2>
 
             <article>
                 <h3>Culte du dimanche</h3>
-                <p>Dimanche : 8h-12h </p>
-                <p>Louange, adoration et prédication.</p>
+                <p><strong>Horaire :</strong> dimanche, de 8 h à 12 h.</p>
+                <p>
+                    Un temps de louange, d'adoration,
+                    de prière et de prédication de la Parole de Dieu.
+                </p>
             </article>
 
             <article>
-                <h3>culte d'édification le mercredi  </h3>
-                <p>mercredit: 19h-21h </p>
-                <p>Un moment de prière .</p>
+                <h3>Culte d'édification du mercredi</h3>
+                <p><strong>Horaire :</strong> mercredi, de 19 h à 21 h.</p>
+                <p>
+                    Un moment de prière, d'enseignement biblique
+                    et d'affermissement dans la foi.
+                </p>
             </article>
-
-            
 
         </section>
 
-
         <!-- NOS VALEURS -->
-        <section id="valeurs">
+        <section id="valeurs" aria-labelledby="titre-valeurs">
 
-            <h2>Nos valeurs</h2>
+            <h2 id="titre-valeurs">Nos valeurs</h2>
 
             <ul>
                 <li>Louange</li>
                 <li>Enseignement</li>
                 <li>Service</li>
-                <li>Communaute</li>
+                <li>Communauté</li>
                 <li>Mission</li>
             </ul>
 
         </section>
 
+        <!-- THÈME ANNUEL ET ÉVÉNEMENTS -->
+        <section id="evenements" aria-labelledby="titre-evenements">
 
-        <!-- ÉVÉNEMENTS -->
-        <section id="evenements">
+            <h2 id="titre-evenements">Thème de l'année</h2>
 
-            <h2>thème de l'anné : Voix connaîtrez la vérité!   Référance : jean 8v26-29 </h2>
-
-
-
-        <!-- VERSET -->
-        <section id="versets">
-
-            <h2>Verset de l'anné </h2>
-
-            <blockquote>
-                « 26 J'ai beaucoup de choses à dire de vous et à juger en vous; mais celui qui m'a envoyé est vrai, et ce que j'ai entendu de lui, je le dis au monde.
-27 Ils ne comprirent point qu'il leur parlait du Père.
-28 Jésus leur dit donc: Quand vous aurez élevé le Fils de l'homme, alors vous saurez ce que je suis, et que je ne fais rien de moi-même, mais que je parle selon ce que le Père m'a enseigné.
-29 Celui qui m'a envoyé est avec moi; il ne m'a pas laissé seul, parce que je fais toujours ce qui lui est agréable. »
-            </blockquote>
-
-            <p>
-                <strong>Jérémie 29:11</strong>
-            </p>
+            <article>
+                <h3>« Vous connaîtrez la vérité »</h3>
+                <p>
+                    <strong>Référence biblique :</strong>
+                    Jean 8:26-29.
+                </p>
+                <p>
+                    Que la Parole de Dieu guide notre marche,
+                    fortifie notre foi et nous conduise dans la vérité.
+                </p>
+            </article>
 
         </section>
 
-<!-- GALERIE -->
-<section id="galerie">
+        <!-- VERSET DE L'ANNÉE -->
+        <section id="versets" aria-labelledby="titre-versets">
 
-    <h2>Notre galerie</h2>
+            <h2 id="titre-versets">Verset de l'année</h2>
 
-    <div class="galerie-images">
-        <img src="./Image.jpeg" alt="Culte UFAJ">
-        <img src="./Image1.jpeg" alt="Communauté UFAJ">
-        <img src="./Image2.jpeg" alt="Communauté UFAJ">
-        <img src="./Image3.jpeg" alt="Événement UFAJ">
-        <img src="./Image4.jpeg" alt="Louange UFAJ">
-        <img src="./Image5.jpeg" alt="Louange UFAJ">
-    </div>
+            <blockquote>
+                « Celui qui m'a envoyé est avec moi ;
+                il ne m'a pas laissé seul, parce que je fais toujours
+                ce qui lui est agréable. »
+            </blockquote>
 
-</section>
+            <p><strong>Jean 8:29</strong></p>
 
+        </section>
+
+        <!-- GALERIE -->
+        <section id="galerie" aria-labelledby="titre-galerie">
+
+            <h2 id="titre-galerie">Notre galerie</h2>
+
+            <div class="galerie-images">
+
+                <img
+                    src="./Image.jpeg"
+                    alt="Moment de culte à UFAJ Église Chrétienne"
+                    loading="lazy"
+                >
+
+                <img
+                    src="./Image1.jpeg"
+                    alt="Communauté de UFAJ"
+                    loading="lazy"
+                >
+
+                <img
+                    src="./Image2.jpeg"
+                    alt="Membres de la communauté UFAJ"
+                    loading="lazy"
+                >
+
+                <img
+                    src="./Image3.jpeg"
+                    alt="Événement organisé par UFAJ"
+                    loading="lazy"
+                >
+
+                <img
+                    src="./Image4.jpeg"
+                    alt="Moment de louange à UFAJ"
+                    loading="lazy"
+                >
+
+                <img
+                    src="./Image5.jpeg"
+                    alt="Communauté réunie pour la louange"
+                    loading="lazy"
+                >
+
+            </div>
+
+        </section>
 
         <!-- CONTACT -->
-        <section id="contact">
+        <section id="contact" aria-labelledby="titre-contact">
 
-            <h2>Contactez-nous</h2>
+            <h2 id="titre-contact">Contactez-nous</h2>
 
             <p>
                 <strong>Adresse :</strong>
-                UFAJ Vridi Cité, Abidjan, Côte d'Ivoire
-                Collège  labion maxime
+                UFAJ Vridi Cité, Abidjan, Côte d'Ivoire,
+                près du collège Labion Maxime.
             </p>
 
             <p>
                 <strong>Téléphone :</strong>
-                +225 0702113431
+                <a href="tel:+2250702113431">
+                    +225 0702113431
+                </a>
             </p>
 
             <p>
-                <strong>Email :</strong>
-                Ufajvridicite@gmail.com
+                <strong>E-mail :</strong>
+                <a href="mailto:Ufajvridicite@gmail.com">
+                    Ufajvridicite@gmail.com
+                </a>
             </p>
 
-            <a href="https://wa.me/2250798244149"  target="_blank" rel="noopener noreferrer"> 
+            <a
+                href="https://wa.me/2250798244149"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
                 Nous contacter sur WhatsApp
             </a>
 
         </section>
 
     </main>
-
 
     <!-- PIED DE PAGE -->
     <footer>
@@ -221,5 +276,4 @@
     </footer>
 
 </body>
-
 </html>
