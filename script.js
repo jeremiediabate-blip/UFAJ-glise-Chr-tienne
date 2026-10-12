@@ -1,4 +1,4 @@
-```javascript
+
 // ==========================================
 // UFAJ ÉGLISE CHRÉTIENNE
 // SCRIPT JAVASCRIPT
