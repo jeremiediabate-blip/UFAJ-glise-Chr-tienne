@@ -1,3 +1,4 @@
+```javascript
 // ==========================================
 // UFAJ ÉGLISE CHRÉTIENNE
 // SCRIPT JAVASCRIPT
@@ -12,24 +13,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const liensMenu = document.querySelectorAll('nav a[href^="#"]');
 
     liensMenu.forEach(function (lien) {
-
         lien.addEventListener("click", function (event) {
-
-            event.preventDefault();
-
             const id = this.getAttribute("href");
-
             const section = document.querySelector(id);
 
             if (section) {
+                event.preventDefault();
+
                 section.scrollIntoView({
                     behavior: "smooth",
                     block: "start"
                 });
             }
-
         });
-
     });
 
 
@@ -43,314 +39,306 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // ==========================================
-    // 3. ANIMATION DES SECTIONS AU DÉFILEMENT
+    // 3. ANIMATION DES SECTIONS
     // ==========================================
 
     const sections = document.querySelectorAll("main section");
 
-    const observer = new IntersectionObserver(
-        function (entries) {
+    if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+            function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("section-visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            {
+                threshold: 0.15
+            }
+        );
 
-            entries.forEach(function (entry) {
-
-                if (entry.isIntersecting) {
-
-                    entry.target.classList.add("section-visible");
-
-                }
-
-            });
-
-        },
-        {
-            threshold: 0.15
-        }
-    );
-
-    sections.forEach(function (section) {
-
-        observer.observe(section);
-
-    });
+        sections.forEach(function (section) {
+            observer.observe(section);
+        });
+    } else {
+        sections.forEach(function (section) {
+            section.classList.add("section-visible");
+        });
+    }
 
 
     // ==========================================
-    // 4. ANIMATION DES IMAGES DE LA GALERIE
+    // 4. MENU DÉROULANT POUR MOBILE
     // ==========================================
 
-    const images = document.querySelectorAll("#galerie img");
+    const boutonMenu = document.getElementById("menu-toggle");
+    const menuPrincipal = document.getElementById("menu-principal");
 
-    images.forEach(function (image) {
+    function fermerMenu() {
+        if (!boutonMenu || !menuPrincipal) return;
 
-        image.addEventListener("click", function () {
+        menuPrincipal.classList.remove("menu-ouvert");
+        boutonMenu.setAttribute("aria-expanded", "false");
+        boutonMenu.setAttribute("aria-label", "Ouvrir le menu");
+        boutonMenu.textContent = "☰";
+    }
 
-            // Création de la fenêtre d'agrandissement
-            const modal = document.createElement("div");
+    if (boutonMenu && menuPrincipal) {
 
-            modal.classList.add("image-modal");
+        boutonMenu.addEventListener("click", function () {
+            const estOuvert =
+                menuPrincipal.classList.toggle("menu-ouvert");
 
-            modal.innerHTML = `
-                <div class="modal-content">
+            boutonMenu.setAttribute(
+                "aria-expanded",
+                String(estOuvert)
+            );
 
-                    <button class="close-modal">
-                        &times;
-                    </button>
+            boutonMenu.setAttribute(
+                "aria-label",
+                estOuvert ? "Fermer le menu" : "Ouvrir le menu"
+            );
 
-                    <img src="${this.src}" alt="${this.alt}">
-
-                    <p>${this.alt}</p>
-
-                </div>
-            `;
-
-            document.body.appendChild(modal);
-
-
-            // Fermer la fenêtre
-            const boutonFermer =
-                modal.querySelector(".close-modal");
-
-            boutonFermer.addEventListener("click", function () {
-
-                modal.remove();
-
-            });
-
-
-            // Fermer en cliquant à côté de l'image
-            modal.addEventListener("click", function (event) {
-
-                if (event.target === modal) {
-
-                    modal.remove();
-
-                }
-
-            });
-
+            boutonMenu.textContent = estOuvert ? "✕" : "☰";
         });
 
+        // Fermer le menu après avoir choisi une rubrique
+        menuPrincipal.querySelectorAll("a").forEach(function (lien) {
+            lien.addEventListener("click", function () {
+                fermerMenu();
+            });
+        });
+
+        // Fermer le menu avec la touche Échap
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                fermerMenu();
+            }
+        });
+
+        // Si on revient à un écran large, réinitialiser le menu mobile
+        window.addEventListener("resize", function () {
+            if (window.innerWidth > 768) {
+                fermerMenu();
+            }
+        });
+    }
+
+
+    // ==========================================
+    // 5. AGRANDISSEMENT DES IMAGES DE LA GALERIE
+    // ==========================================
+
+    const imagesGalerie = document.querySelectorAll("#galerie img");
+
+    imagesGalerie.forEach(function (image) {
+        image.addEventListener("click", function () {
+
+            // Éviter d'ouvrir plusieurs fenêtres pour une image
+            if (document.querySelector(".image-modal")) return;
+
+            const modal = document.createElement("div");
+            modal.className = "image-modal";
+
+            const contenu = document.createElement("div");
+            contenu.className = "modal-content";
+
+            const boutonFermer = document.createElement("button");
+            boutonFermer.className = "close-modal";
+            boutonFermer.type = "button";
+            boutonFermer.setAttribute("aria-label", "Fermer l'image");
+            boutonFermer.textContent = "×";
+
+            const grandeImage = document.createElement("img");
+            grandeImage.src = image.src;
+            grandeImage.alt = image.alt;
+
+            const description = document.createElement("p");
+            description.textContent = image.alt;
+
+            contenu.appendChild(boutonFermer);
+            contenu.appendChild(grandeImage);
+            contenu.appendChild(description);
+            modal.appendChild(contenu);
+            document.body.appendChild(modal);
+
+            // Empêcher le défilement de la page en arrière-plan
+            document.body.style.overflow = "hidden";
+
+            function fermerImage() {
+                modal.remove();
+                document.body.style.overflow = "";
+                document.removeEventListener("keydown", fermerAvecEchap);
+            }
+
+            function fermerAvecEchap(event) {
+                if (event.key === "Escape") {
+                    fermerImage();
+                }
+            }
+
+            boutonFermer.addEventListener("click", fermerImage);
+
+            modal.addEventListener("click", function (event) {
+                if (event.target === modal) {
+                    fermerImage();
+                }
+            });
+
+            document.addEventListener("keydown", fermerAvecEchap);
+        });
     });
 
 
     // ==========================================
-    // 5. BOUTON WHATSAPP
+    // 6. BOUTON WHATSAPP
     // ==========================================
 
-    const boutonWhatsApp =
-        document.querySelector('a[href*="wa.me"]');
+    const boutonWhatsApp = document.querySelector('a[href*="wa.me"]');
 
     if (boutonWhatsApp) {
-
         boutonWhatsApp.addEventListener("click", function () {
-
             console.log(
                 "Ouverture de WhatsApp pour contacter UFAJ."
             );
-
         });
-
     }
 
 
     // ==========================================
-    // 6. MISE EN ÉVIDENCE DU MENU ACTIF
+    // 7. MISE EN ÉVIDENCE DU MENU ACTIF
     // ==========================================
 
-    const sectionsMenu =
-        document.querySelectorAll("main section[id]");
+    const sectionsMenu = document.querySelectorAll("main section[id]");
+    const liensNavigation = document.querySelectorAll('nav a[href^="#"]');
 
-    const menuLinks =
-        document.querySelectorAll("nav a[href^='#']");
-
-
-    window.addEventListener("scroll", function () {
-
+    function mettreAJourMenuActif() {
         let sectionActuelle = "";
 
         sectionsMenu.forEach(function (section) {
+            const position = section.getBoundingClientRect();
 
-            const position =
-                section.getBoundingClientRect();
-
-            if (position.top <= 150 &&
-                position.bottom >= 150) {
-
+            if (position.top <= 150 && position.bottom >= 150) {
                 sectionActuelle = section.id;
-
             }
-
         });
 
+        liensNavigation.forEach(function (lien) {
+            const actif =
+                lien.getAttribute("href") === "#" + sectionActuelle;
 
-        menuLinks.forEach(function (link) {
+            lien.classList.toggle("active", actif);
 
-            link.classList.remove("active");
-
-            if (
-                link.getAttribute("href") ===
-                "#" + sectionActuelle
-            ) {
-
-                link.classList.add("active");
-
+            if (actif) {
+                lien.setAttribute("aria-current", "location");
+            } else {
+                lien.removeAttribute("aria-current");
             }
-
         });
+    }
 
+    window.addEventListener("scroll", mettreAJourMenuActif, {
+        passive: true
     });
 
+    mettreAJourMenuActif();
+
 
     // ==========================================
-    // 7. MESSAGE POUR LE VERSET DU JOUR
+    // 8. MESSAGE POUR LE VERSET DU JOUR
     // ==========================================
 
-    const sectionVerset =
-        document.querySelector("#versets");
+    const sectionVerset = document.querySelector("#versets");
 
     if (sectionVerset) {
-
         sectionVerset.addEventListener("click", function () {
-
             console.log(
                 "Que cette parole vous accompagne aujourd'hui 🙏"
             );
-
         });
-
     }
 
 
     // ==========================================
-    // 8. ANNÉE AUTOMATIQUE DANS LE FOOTER
+    // 9. ANNÉE AUTOMATIQUE DANS LE PIED DE PAGE
     // ==========================================
 
     const footer = document.querySelector("footer");
 
     if (footer) {
-
-        const paragraphes =
-            footer.querySelectorAll("p");
-
-        paragraphes.forEach(function (p) {
-
-            if (p.textContent.includes("2026")) {
-
-                p.textContent =
-                    p.textContent.replace(
-                        "2026",
-                        new Date().getFullYear()
-                    );
-
-            }
-
+        footer.querySelectorAll("p").forEach(function (paragraphe) {
+            paragraphe.textContent =
+                paragraphe.textContent.replace(
+                    /\b2026\b/g,
+                    String(new Date().getFullYear())
+                );
         });
-
     }
 
 
     // ==========================================
-    // 9. BOUTON "DÉCOUVRIR NOTRE ÉGLISE"
+    // 10. BOUTON « DÉCOUVRIR NOTRE ÉGLISE »
     // ==========================================
 
     const boutonDecouvrir =
         document.querySelector('a[href="#apropos"]');
 
     if (boutonDecouvrir) {
-
         boutonDecouvrir.addEventListener("click", function () {
-
-            const apropos =
-                document.querySelector("#apropos");
+            const apropos = document.querySelector("#apropos");
 
             if (apropos) {
-
                 apropos.scrollIntoView({
-                    behavior: "smooth"
+                    behavior: "smooth",
+                    block: "start"
                 });
-
             }
-
         });
-
     }
 
 
     // ==========================================
-    // 10. PETITE NOTIFICATION
+    // 11. NOTIFICATION DE BIENVENUE
     // ==========================================
 
     function afficherNotification(message) {
+        // Ne pas afficher plusieurs notifications simultanément
+        const ancienneNotification =
+            document.querySelector(".notification-ufaj");
 
-        const notification =
-            document.createElement("div");
+        if (ancienneNotification) {
+            ancienneNotification.remove();
+        }
 
-        notification.className =
-            "notification-ufaj";
-
+        const notification = document.createElement("div");
+        notification.className = "notification-ufaj";
         notification.textContent = message;
 
         document.body.appendChild(notification);
 
-
-        setTimeout(function () {
-
+        // Afficher la notification après son insertion
+        requestAnimationFrame(function () {
             notification.classList.add("show");
+        });
 
-        }, 100);
-
-
-        setTimeout(function () {
-
+        // Masquer puis supprimer la notification
+        window.setTimeout(function () {
             notification.classList.remove("show");
 
-            setTimeout(function () {
-
+            window.setTimeout(function () {
                 notification.remove();
-
             }, 500);
 
         }, 4000);
-
     }
 
-
-    // Message après quelques secondes
-    setTimeout(function () {
-
+    window.setTimeout(function () {
         afficherNotification(
             "Bienvenue sur le site de UFAJ Église Chrétienne 🙏"
         );
-
     }, 1500);
 
-
 });
-```javascript
-// Menu déroulant pour Android, iPhone et petites tablettes
-
-const boutonMenu = document.getElementById("menu-toggle");
-const menuPrincipal = document.getElementById("menu-principal");
-
-if (boutonMenu && menuPrincipal) {
-    boutonMenu.addEventListener("click", function () {
-        const estOuvert = menuPrincipal.classList.toggle("menu-ouvert");
-
-        boutonMenu.setAttribute("aria-expanded", String(estOuvert));
-        boutonMenu.setAttribute(
-            "aria-label",
-            estOuvert ? "Fermer le menu" : "Ouvrir le menu"
-        );
-
-        boutonMenu.textContent = estOuvert ? "✕" : "☰";
-    });
-
-    menuPrincipal.querySelectorAll("a").forEach(function (lien) {
-        lien.addEventListener("click", function () {
-            menuPrincipal.classList.remove("menu-ouvert");
-            boutonMenu.setAttribute("aria-expanded", "false");
-            boutonMenu.setAttribute("aria-label", "Ouvrir le menu");
-            boutonMenu.textContent = "☰";
-        });
-    });
-}
+```
