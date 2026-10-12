@@ -1,66 +1,220 @@
 
-// ==========================================
+// =====================================================
 // UFAJ ÉGLISE CHRÉTIENNE
-// SCRIPT JAVASCRIPT
-// ==========================================
+// SCRIPT JAVASCRIPT PRINCIPAL
+// =====================================================
 
 document.addEventListener("DOMContentLoaded", function () {
+    "use strict";
 
-    // ==========================================
-    // 1. NAVIGATION FLUIDE
-    // ==========================================
+    // -------------------------------------------------
+    // 1. ÉLÉMENTS PRINCIPAUX
+    // -------------------------------------------------
 
-    const liensMenu = document.querySelectorAll('nav a[href^="#"]');
-
-    liensMenu.forEach(function (lien) {
-        lien.addEventListener("click", function (event) {
-            const id = this.getAttribute("href");
-            const section = document.querySelector(id);
-
-            if (section) {
-                event.preventDefault();
-
-                section.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-            }
-        });
-    });
-
-
-    // ==========================================
-    // 2. MESSAGE DE BIENVENUE
-    // ==========================================
-
-    console.log(
-        "Bienvenue sur le site de UFAJ Église Chrétienne 🙏"
+    const boutonMenu = document.getElementById("menu-toggle");
+    const menuPrincipal = document.getElementById("menu-principal");
+    const sections = document.querySelectorAll("main section[id]");
+    const liensNavigation = document.querySelectorAll(
+        '#menu-principal a[href^="#"]'
     );
 
+    // -------------------------------------------------
+    // 2. STYLES DES FONCTIONNALITÉS JAVASCRIPT
+    // -------------------------------------------------
 
-    // ==========================================
-    // 3. ANIMATION DES SECTIONS
-    // ==========================================
+    const stylesDynamiques = document.createElement("style");
 
-    const sections = document.querySelectorAll("main section");
+    stylesDynamiques.textContent = `
+        .section-visible {
+            animation: ufaj-apparition 0.65s ease both;
+        }
+
+        @keyframes ufaj-apparition {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #menu-principal a.active {
+            color: #B5121B;
+        }
+
+        #menu-principal a.active::after {
+            width: 100%;
+        }
+
+        .image-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.92);
+        }
+
+        .modal-content {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            width: min(100%, 1000px);
+            max-height: 95vh;
+        }
+
+        .modal-content img {
+            display: block;
+            max-width: 100%;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .modal-content p {
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        .close-modal {
+            align-self: flex-end;
+            width: 44px;
+            height: 44px;
+            border: 0;
+            border-radius: 50%;
+            background: #B5121B;
+            color: #FFFFFF;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .notification-ufaj {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 1500;
+            width: min(360px, calc(100% - 40px));
+            padding: 16px 20px;
+            border-left: 5px solid #D4A84F;
+            border-radius: 10px;
+            background: #FFFFFF;
+            color: #111111;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .notification-ufaj.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .section-visible {
+                animation: none;
+            }
+
+            .notification-ufaj {
+                transition: none;
+            }
+        }
+    `;
+
+    document.head.appendChild(stylesDynamiques);
+
+    // -------------------------------------------------
+    // 3. MENU MOBILE
+    // -------------------------------------------------
+
+    function fermerMenu() {
+        if (!boutonMenu || !menuPrincipal) return;
+
+        menuPrincipal.classList.remove("menu-ouvert");
+
+        boutonMenu.setAttribute("aria-expanded", "false");
+        boutonMenu.setAttribute("aria-label", "Ouvrir le menu");
+        boutonMenu.textContent = "☰";
+    }
+
+    function ouvrirMenu() {
+        if (!boutonMenu || !menuPrincipal) return;
+
+        menuPrincipal.classList.add("menu-ouvert");
+
+        boutonMenu.setAttribute("aria-expanded", "true");
+        boutonMenu.setAttribute("aria-label", "Fermer le menu");
+        boutonMenu.textContent = "✕";
+    }
+
+    if (boutonMenu && menuPrincipal) {
+        boutonMenu.addEventListener("click", function () {
+            const estOuvert =
+                menuPrincipal.classList.contains("menu-ouvert");
+
+            if (estOuvert) {
+                fermerMenu();
+            } else {
+                ouvrirMenu();
+            }
+        });
+
+        // Fermer le menu après la sélection d'une rubrique.
+        menuPrincipal.querySelectorAll("a").forEach(function (lien) {
+            lien.addEventListener("click", fermerMenu);
+        });
+
+        // Fermer le menu avec Échap.
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Escape") {
+                fermerMenu();
+            }
+        });
+
+        // Réinitialiser le menu lors du passage à l'écran large.
+        window.addEventListener("resize", function () {
+            if (window.innerWidth > 768) {
+                fermerMenu();
+            }
+        });
+
+        fermerMenu();
+    }
+
+    // -------------------------------------------------
+    // 4. NAVIGATION ET SECTIONS
+    // -------------------------------------------------
+
+    // Le défilement fluide est géré par le CSS :
+    // html { scroll-behavior: smooth; }
+    // On évite donc d'ajouter plusieurs gestionnaires
+    // de défilement sur les mêmes liens.
 
     if ("IntersectionObserver" in window) {
-        const observer = new IntersectionObserver(
-            function (entries) {
-                entries.forEach(function (entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("section-visible");
-                        observer.unobserve(entry.target);
+        const observateurSections = new IntersectionObserver(
+            function (entrees) {
+                entrees.forEach(function (entree) {
+                    if (entree.isIntersecting) {
+                        entree.target.classList.add("section-visible");
+                        observateurSections.unobserve(entree.target);
                     }
                 });
             },
             {
-                threshold: 0.15
+                threshold: 0.12
             }
         );
 
         sections.forEach(function (section) {
-            observer.observe(section);
+            observateurSections.observe(section);
         });
     } else {
         sections.forEach(function (section) {
@@ -68,162 +222,41 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-
-    // ==========================================
-    // 4. MENU DÉROULANT POUR MOBILE
-    // ==========================================
-
-    const boutonMenu = document.getElementById("menu-toggle");
-    const menuPrincipal = document.getElementById("menu-principal");
-
-    function fermerMenu() {
-        if (!boutonMenu || !menuPrincipal) return;
-
-        menuPrincipal.classList.remove("menu-ouvert");
-        boutonMenu.setAttribute("aria-expanded", "false");
-        boutonMenu.setAttribute("aria-label", "Ouvrir le menu");
-        boutonMenu.textContent = "☰";
-    }
-
-    if (boutonMenu && menuPrincipal) {
-
-        boutonMenu.addEventListener("click", function () {
-            const estOuvert =
-                menuPrincipal.classList.toggle("menu-ouvert");
-
-            boutonMenu.setAttribute(
-                "aria-expanded",
-                String(estOuvert)
-            );
-
-            boutonMenu.setAttribute(
-                "aria-label",
-                estOuvert ? "Fermer le menu" : "Ouvrir le menu"
-            );
-
-            boutonMenu.textContent = estOuvert ? "✕" : "☰";
-        });
-
-        // Fermer le menu après avoir choisi une rubrique
-        menuPrincipal.querySelectorAll("a").forEach(function (lien) {
-            lien.addEventListener("click", function () {
-                fermerMenu();
-            });
-        });
-
-        // Fermer le menu avec la touche Échap
-        document.addEventListener("keydown", function (event) {
-            if (event.key === "Escape") {
-                fermerMenu();
-            }
-        });
-
-        // Si on revient à un écran large, réinitialiser le menu mobile
-        window.addEventListener("resize", function () {
-            if (window.innerWidth > 768) {
-                fermerMenu();
-            }
-        });
-    }
-
-
-    // ==========================================
-    // 5. AGRANDISSEMENT DES IMAGES DE LA GALERIE
-    // ==========================================
-
-    const imagesGalerie = document.querySelectorAll("#galerie img");
-
-    imagesGalerie.forEach(function (image) {
-        image.addEventListener("click", function () {
-
-            // Éviter d'ouvrir plusieurs fenêtres pour une image
-            if (document.querySelector(".image-modal")) return;
-
-            const modal = document.createElement("div");
-            modal.className = "image-modal";
-
-            const contenu = document.createElement("div");
-            contenu.className = "modal-content";
-
-            const boutonFermer = document.createElement("button");
-            boutonFermer.className = "close-modal";
-            boutonFermer.type = "button";
-            boutonFermer.setAttribute("aria-label", "Fermer l'image");
-            boutonFermer.textContent = "×";
-
-            const grandeImage = document.createElement("img");
-            grandeImage.src = image.src;
-            grandeImage.alt = image.alt;
-
-            const description = document.createElement("p");
-            description.textContent = image.alt;
-
-            contenu.appendChild(boutonFermer);
-            contenu.appendChild(grandeImage);
-            contenu.appendChild(description);
-            modal.appendChild(contenu);
-            document.body.appendChild(modal);
-
-            // Empêcher le défilement de la page en arrière-plan
-            document.body.style.overflow = "hidden";
-
-            function fermerImage() {
-                modal.remove();
-                document.body.style.overflow = "";
-                document.removeEventListener("keydown", fermerAvecEchap);
-            }
-
-            function fermerAvecEchap(event) {
-                if (event.key === "Escape") {
-                    fermerImage();
-                }
-            }
-
-            boutonFermer.addEventListener("click", fermerImage);
-
-            modal.addEventListener("click", function (event) {
-                if (event.target === modal) {
-                    fermerImage();
-                }
-            });
-
-            document.addEventListener("keydown", fermerAvecEchap);
-        });
-    });
-
-
-    // ==========================================
-    // 6. BOUTON WHATSAPP
-    // ==========================================
-
-    const boutonWhatsApp = document.querySelector('a[href*="wa.me"]');
-
-    if (boutonWhatsApp) {
-        boutonWhatsApp.addEventListener("click", function () {
-            console.log(
-                "Ouverture de WhatsApp pour contacter UFAJ."
-            );
-        });
-    }
-
-
-    // ==========================================
-    // 7. MISE EN ÉVIDENCE DU MENU ACTIF
-    // ==========================================
-
-    const sectionsMenu = document.querySelectorAll("main section[id]");
-    const liensNavigation = document.querySelectorAll('nav a[href^="#"]');
+    // -------------------------------------------------
+    // 5. MISE EN ÉVIDENCE DE LA RUBRIQUE ACTIVE
+    // -------------------------------------------------
 
     function mettreAJourMenuActif() {
         let sectionActuelle = "";
+        const hauteurEntete = 110;
 
-        sectionsMenu.forEach(function (section) {
+        sections.forEach(function (section) {
             const position = section.getBoundingClientRect();
 
-            if (position.top <= 150 && position.bottom >= 150) {
+            if (
+                position.top <= hauteurEntete &&
+                position.bottom > hauteurEntete
+            ) {
                 sectionActuelle = section.id;
             }
         });
+
+        // Si la page est arrivée tout en haut.
+        if (window.scrollY < 10 && sections.length > 0) {
+            sectionActuelle = sections[0].id;
+        }
+
+        // Si la page est arrivée tout en bas.
+        if (
+            window.innerHeight + window.scrollY >=
+            document.documentElement.scrollHeight - 5
+        ) {
+            const derniereSection = sections[sections.length - 1];
+
+            if (derniereSection) {
+                sectionActuelle = derniereSection.id;
+            }
+        }
 
         liensNavigation.forEach(function (lien) {
             const actif =
@@ -239,99 +272,192 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    window.addEventListener("scroll", mettreAJourMenuActif, {
-        passive: true
-    });
+    let demandeAnimation = false;
 
+    window.addEventListener(
+        "scroll",
+        function () {
+            if (!demandeAnimation) {
+                window.requestAnimationFrame(function () {
+                    mettreAJourMenuActif();
+                    demandeAnimation = false;
+                });
+
+                demandeAnimation = true;
+            }
+        },
+        { passive: true }
+    );
+
+    window.addEventListener("resize", mettreAJourMenuActif);
     mettreAJourMenuActif();
 
+    // -------------------------------------------------
+    // 6. GALERIE : AGRANDISSEMENT DES IMAGES
+    // -------------------------------------------------
 
-    // ==========================================
-    // 8. MESSAGE POUR LE VERSET DU JOUR
-    // ==========================================
+    const imagesGalerie = document.querySelectorAll(
+        "#galerie .galerie-images img"
+    );
 
-    const sectionVerset = document.querySelector("#versets");
+    let modalOuverte = null;
+    let elementAvantModal = null;
+    let debordementAvantModal = "";
 
-    if (sectionVerset) {
-        sectionVerset.addEventListener("click", function () {
-            console.log(
-                "Que cette parole vous accompagne aujourd'hui 🙏"
-            );
-        });
+    function fermerImage() {
+        if (!modalOuverte) return;
+
+        modalOuverte.remove();
+        modalOuverte = null;
+
+        document.body.style.overflow = debordementAvantModal;
+
+        document.removeEventListener("keydown", gererClavierModal);
+
+        if (elementAvantModal && elementAvantModal.isConnected) {
+            elementAvantModal.focus();
+        }
+
+        elementAvantModal = null;
     }
 
-
-    // ==========================================
-    // 9. ANNÉE AUTOMATIQUE DANS LE PIED DE PAGE
-    // ==========================================
-
-    const footer = document.querySelector("footer");
-
-    if (footer) {
-        footer.querySelectorAll("p").forEach(function (paragraphe) {
-            paragraphe.textContent =
-                paragraphe.textContent.replace(
-                    /\b2026\b/g,
-                    String(new Date().getFullYear())
-                );
-        });
+    function gererClavierModal(event) {
+        if (event.key === "Escape") {
+            fermerImage();
+        }
     }
 
+    function ouvrirImage(image) {
+        if (modalOuverte) return;
 
-    // ==========================================
-    // 10. BOUTON « DÉCOUVRIR NOTRE ÉGLISE »
-    // ==========================================
+        elementAvantModal = document.activeElement;
+        debordementAvantModal = document.body.style.overflow;
 
-    const boutonDecouvrir =
-        document.querySelector('a[href="#apropos"]');
+        const modal = document.createElement("div");
+        modal.className = "image-modal";
+        modal.setAttribute("role", "dialog");
+        modal.setAttribute("aria-modal", "true");
+        modal.setAttribute("aria-label", image.alt || "Image de la galerie");
 
-    if (boutonDecouvrir) {
-        boutonDecouvrir.addEventListener("click", function () {
-            const apropos = document.querySelector("#apropos");
+        const contenu = document.createElement("div");
+        contenu.className = "modal-content";
 
-            if (apropos) {
-                apropos.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
+        const boutonFermer = document.createElement("button");
+        boutonFermer.type = "button";
+        boutonFermer.className = "close-modal";
+        boutonFermer.setAttribute("aria-label", "Fermer l'image");
+        boutonFermer.textContent = "×";
+
+        const grandeImage = document.createElement("img");
+        grandeImage.src = image.currentSrc || image.src;
+        grandeImage.alt = image.alt;
+
+        const description = document.createElement("p");
+        description.textContent = image.alt;
+
+        contenu.appendChild(boutonFermer);
+        contenu.appendChild(grandeImage);
+
+        if (image.alt) {
+            contenu.appendChild(description);
+        }
+
+        modal.appendChild(contenu);
+        document.body.appendChild(modal);
+
+        modalOuverte = modal;
+        document.body.style.overflow = "hidden";
+
+        boutonFermer.addEventListener("click", fermerImage);
+
+        modal.addEventListener("click", function (event) {
+            if (event.target === modal) {
+                fermerImage();
             }
         });
+
+        document.addEventListener("keydown", gererClavierModal);
+
+        boutonFermer.focus();
     }
 
+    imagesGalerie.forEach(function (image) {
+        image.addEventListener("click", function () {
+            ouvrirImage(image);
+        });
 
-    // ==========================================
-    // 11. NOTIFICATION DE BIENVENUE
-    // ==========================================
+        // Permet également l'ouverture au clavier.
+        if (!image.hasAttribute("tabindex")) {
+            image.setAttribute("tabindex", "0");
+        }
+
+        image.addEventListener("keydown", function (event) {
+            if (
+                event.key === "Enter" ||
+                event.key === " "
+            ) {
+                event.preventDefault();
+                ouvrirImage(image);
+            }
+        });
+    });
+
+    // -------------------------------------------------
+    // 7. WHATSAPP
+    // -------------------------------------------------
+
+    const boutonWhatsApp = document.querySelector(
+        '#contact a[href*="wa.me"]'
+    );
+
+    if (boutonWhatsApp) {
+        boutonWhatsApp.addEventListener("click", function () {
+            console.log("Ouverture de WhatsApp pour contacter UFAJ.");
+        });
+    }
+
+    // -------------------------------------------------
+    // 8. NOTIFICATION DE BIENVENUE
+    // -------------------------------------------------
+
+    let minuterieNotification = null;
+    let minuterieSuppression = null;
+    let notificationActuelle = null;
 
     function afficherNotification(message) {
-        // Ne pas afficher plusieurs notifications simultanément
-        const ancienneNotification =
-            document.querySelector(".notification-ufaj");
-
-        if (ancienneNotification) {
-            ancienneNotification.remove();
+        if (notificationActuelle) {
+            notificationActuelle.remove();
         }
+
+        window.clearTimeout(minuterieNotification);
+        window.clearTimeout(minuterieSuppression);
 
         const notification = document.createElement("div");
         notification.className = "notification-ufaj";
+        notification.setAttribute("role", "status");
+        notification.setAttribute("aria-live", "polite");
         notification.textContent = message;
 
         document.body.appendChild(notification);
+        notificationActuelle = notification;
 
-        // Afficher la notification après son insertion
-        requestAnimationFrame(function () {
+        window.requestAnimationFrame(function () {
             notification.classList.add("show");
         });
 
-        // Masquer puis supprimer la notification
-        window.setTimeout(function () {
+        minuterieNotification = window.setTimeout(function () {
             notification.classList.remove("show");
 
-            window.setTimeout(function () {
-                notification.remove();
-            }, 500);
+            minuterieSuppression = window.setTimeout(function () {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
 
-        }, 4000);
+                if (notificationActuelle === notification) {
+                    notificationActuelle = null;
+                }
+            }, 350);
+        }, 4500);
     }
 
     window.setTimeout(function () {
@@ -340,5 +466,24 @@ document.addEventListener("DOMContentLoaded", function () {
         );
     }, 1500);
 
+    // -------------------------------------------------
+    // 9. ANNÉE AUTOMATIQUE
+    // -------------------------------------------------
+
+    const paragraphesFooter = document.querySelectorAll("footer p");
+
+    paragraphesFooter.forEach(function (paragraphe) {
+        paragraphe.innerHTML = paragraphe.innerHTML.replace(
+            /\b2026\b/g,
+            String(new Date().getFullYear())
+        );
+    });
+
+    // -------------------------------------------------
+    // 10. MESSAGE DE CONFIRMATION DANS LA CONSOLE
+    // -------------------------------------------------
+
+    console.log(
+        "UFAJ Église Chrétienne : le site est prêt 🙏"
+    );
 });
-```
