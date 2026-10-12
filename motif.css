@@ -927,3 +927,83 @@ footer p:last-child {
         padding: 40px 20px 20px;
     }
 }
+```css
+/* Bouton du menu : caché sur ordinateur */
+.menu-toggle {
+    display: none;
+    border: none;
+    background: #b5121b;
+    color: white;
+    font-size: 28px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Adaptation aux téléphones et petites tablettes */
+@media screen and (max-width: 768px) {
+
+    header {
+        position: relative;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 12px;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+    }
+
+    .logo img {
+        width: 48px;
+        height: 48px;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+
+    .logo h1 {
+        font-size: clamp(18px, 5vw, 28px);
+        margin: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .menu-toggle {
+        display: block;
+        margin: 12px auto 0;
+    }
+
+    header nav#menu-principal {
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        width: 100%;
+        margin-top: 12px;
+        background: #fff;
+        box-sizing: border-box;
+    }
+
+    header nav#menu-principal.menu-ouvert {
+        display: flex;
+    }
+
+    header nav#menu-principal a {
+        display: block;
+        padding: 14px 12px;
+        text-align: center;
+        border-top: 1px solid #eee;
+        text-decoration: none;
+    }
+
+    /* Évite le débordement horizontal */
+    body {
+        overflow-x: hidden;
+    }
+
+    img {
+        max-width: 100%;
+    }
+}
